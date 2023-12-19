@@ -1,0 +1,9 @@
+Last Ignition :
+
+Screens :
+    Loading Screen:
+        -Small animation bottom-right (rotary and piston)
+        -Animation appears each small loading, whole screen appear for long ones
+    Splash Screen :
+        -Already Done. Ran when game is started
+    Main Screen :
