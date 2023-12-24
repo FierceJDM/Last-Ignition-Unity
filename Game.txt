@@ -2,7 +2,6 @@ Last Ignition :
 
 TODO:
     -Fix steering angle
-    -Update github structure to standard unity projects
 
     -Add Terrain Logic
     
