@@ -7,7 +7,26 @@ public class Driving : MonoBehaviour {
     public List<AxleInfo> axleInfos; // the information about each individual axle
     public float maxMotorTorque; // maximum torque the motor can apply to wheel
     public float maxSteeringAngle; // maximum steer angle the wheel can have
-        
+
+    public void ApplyVisualsToWheelColliders(WheelCollider collider, float Zvalue)
+    {
+        if (collider.transform.childCount == 0) {
+            return;
+        }
+     
+        Transform visualWheel = collider.transform.GetChild(0);
+     
+        Vector3 position;
+        Quaternion rotationQ;
+        Vector3 rotationV3;
+        collider.GetWorldPose(out position, out rotationQ); //get position and rotation of WheelCollider
+        rotationV3 = rotationQ.eulerAngles; //convert to Vector3 to correct Z orientation
+     
+        visualWheel.transform.position = position;
+        visualWheel.transform.rotation = Quaternion.Euler(rotationV3.x, rotationV3.y, Zvalue+rotationV3.z);
+    }        
+
+
 
     public void Update()
     {
@@ -23,7 +42,7 @@ public class Driving : MonoBehaviour {
             } else {
                 steering = (maxSteeringAngle / (CurrentSpeed/4.0f)) * Input.GetAxis("Horizontal");
             }
-        } // replace this nested loop with && or # < speed < #
+        } // TODO : Tweak Steering values
             
         foreach (AxleInfo axleInfo in axleInfos) {
             if (axleInfo.steering) {
@@ -34,6 +53,8 @@ public class Driving : MonoBehaviour {
                 axleInfo.leftWheel.motorTorque = motor;
                 axleInfo.rightWheel.motorTorque = motor;
             }
+            ApplyVisualsToWheelColliders(axleInfo.leftWheel, 180);
+            ApplyVisualsToWheelColliders(axleInfo.rightWheel, 0);
         }
     }
 }
